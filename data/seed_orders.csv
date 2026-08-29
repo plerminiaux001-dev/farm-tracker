@@ -1,0 +1,210 @@
+Order ID,Date,Supplier,Category,Crop,Variety,Seed Type,Quantity,Cost ($),Plant ID
+7,2015-01-12,Johnny's Selected Seeds,Beans,Green Beans,Provider,Organic,13500,55.10,70
+8,2015-01-12,Johnny's Selected Seeds,Beans,Yellow Beans,Rocdor,Organic,5000,33.75,71
+9,2015-01-12,Johnny's Selected Seeds,Broccoli,Broccoli,Belstar,Organic,1000,26.25,16
+10,2015-01-12,Johnny's Selected Seeds,Broccoli,Broccoli,Blue Wind,Untreated,1000,9.20,17
+11,2015-01-12,Johnny's Selected Seeds,Broccoli,Broccoli,Green Magic,Untreated,1000,7.55,18
+12,2015-01-12,Johnny's Selected Seeds,Cabbage,Green Cabbage,Farao,Organic,500,20.10,128
+13,2015-01-12,Johnny's Selected Seeds,Cabbage,Red Cabbage,Red Express,Organic,4156,9.10,129
+14,2015-01-12,High Mowing Seeds,Cauliflower,Cauliflower,Janvel,Organic,1000,49.50,115
+15,2015-01-12,Johnny's Selected Seeds,Cauliflower,Cauliflower,Skywalker,Organic,500,29.65,114
+16,2015-01-12,High Mowing Seeds,Kale,Red Kale,Red Russian,Organic,3906,4.95,22
+17,2015-01-12,High Mowing Seeds,Kale,Green Kale,Vates,Organic,15000,10.00,21
+18,2015-01-12,Johnny's Selected Seeds,Kale,Toscano Kale,Toscano,Organic,10437,11.25,23
+19,2015-01-12,Johnny's Selected Seeds,Romanesco,Romanesco,Veronica,Organic,500,37.70,107
+20,2015-01-12,High Mowing Seeds,Cucumbers,Specialty Cuke,Lemon,Organic,275,4.10,54
+21,2015-01-12,Territorial Seed Company,Cucumbers,Slicer Cuke,Marketmore 97,Organic,200,19.10,52
+22,2015-01-12,Johnny's Selected Seeds,Cucumbers,Slicer Cuke,SV4719CS,Untreated,500,18.30,51
+23,2015-01-12,High Mowing Seeds,Cucumbers,Mini Cuke,Picolino,Organic,50,24.50,50
+24,2015-01-12,Harris Seeds,Eggplant,Purple Eggplant,Classic,Untreated,500,11.40,56
+25,2015-01-12,Johnny's Selected Seeds,Greens,Asian Greens,Red Komatsuna,Untreated,250,3.95,61
+26,2015-01-12,Johnny's Selected Seeds,Greens,Asian Greens,Win Win,Untreated,250,3.95,63
+27,2015-01-12,Johnny's Selected Seeds,Greens,Swiss Chard,Bright Lights,Untreated,1000,5.99,60
+28,2015-01-12,Johnny's Selected Seeds,Lettuce,Green Leaf,Green Star,Untreated,1000,8.65,4
+29,2015-01-12,Johnny's Selected Seeds,Lettuce,Green Leaf,Tropicana,Organic,1000,10.40,3
+30,2015-01-12,Johnny's Selected Seeds,Lettuce,Green Leaf,Two Star,Organic,1000,8.60,2
+31,2015-01-12,Johnny's Selected Seeds,Lettuce,Red Leaf,New Red Fire,Organic,1000,6.70,76
+32,2015-01-12,Johnny's Selected Seeds,Lettuce,Red Leaf,Ruby Sky,Untreated,1000,14.65,7
+33,2015-01-12,Johnny's Selected Seeds,Lettuce,Red Leaf,Vulcan,Untreated,1000,8.95,5
+34,2015-01-12,Johnny's Selected Seeds,Lettuce,Romaine,Coastal Star,Organic,1000,10.10,11
+35,2015-01-12,Southern Exposure Seed Exchange,Lettuce,Romaine,Cosmo,Organic,500,2.50,135
+36,2015-01-12,Johnny's Selected Seeds,Lettuce,Romaine,Green Forest,Untreated,1000,9.35,10
+37,2015-01-12,Johnny's Selected Seeds,Lettuce,Romaine,Helvius,Untreated,1000,19.80,12
+38,2015-01-12,Johnny's Selected Seeds,Lettuce,Romaine,Salvius,Untreated,1000,25.25,13
+39,2015-01-12,Johnny's Selected Seeds,Lettuce,Mini Romaine,Breen,Organic,1000,21.50,9
+40,2015-01-12,Johnny's Selected Seeds,Lettuce,Mini Romaine,Dragoon,Organic,1000,21.50,8
+41,2015-01-12,Johnny's Selected Seeds,Lettuce,Salanova,Premier Collection,Untreated,2000,68.10,1
+42,2015-01-12,Johnny's Selected Seeds,Melons,Cantaloupe,Athena,Untreated,250,20.75,124
+43,2015-01-12,High Mowing Seeds,Melons,Specialty Melons,Natal Canary,Organic,50,20.00,130
+44,2015-01-12,Harris Seeds,Melons,Watermelons,Solitare,Untreated,100,46.75,57
+45,2015-01-12,Johnny's Selected Seeds,Peppers,Bell Peppers,Carmen,Organic,100,14.00,44
+46,2015-01-12,Johnny's Selected Seeds,Peppers,Bell Peppers,Gourmet,Untreated,100,13.00,41
+47,2015-01-12,Johnny's Selected Seeds,Peppers,Bell Peppers,Olympus,Organic,500,46.70,40
+48,2015-01-12,Johnny's Selected Seeds,Peppers,Bell Peppers,X3R Red Knight,Untreated,250,23.05,42
+49,2015-01-12,Johnny's Selected Seeds,Peppers,Mini Peppers,Lunchbox,Organic,100,16.15,136
+50,2015-01-12,Johnny's Selected Seeds,Peppers,Hot Peppers,Cheyenne,Untreated,50,7.90,46
+51,2015-01-12,Johnny's Selected Seeds,Peppers,Hot Peppers,Jalafuego,Untreated,50,7.90,45
+52,2015-01-12,Johnny's Selected Seeds,Tomatoes,Slicer Tomatoes,Defiant,Organic,250,54.30,64
+53,2015-01-12,Johnny's Selected Seeds,Tomatoes,Slicer Tomatoes,Celebrity,Untreated,500,21.55,66
+54,2015-01-12,High Mowing Seeds,Tomatoes,Cherry Tomatoes,Esterina,Organic,100,15.50,68
+55,2015-01-12,High Mowing Seeds,Tomatoes,Cherry Tomatoes,Sakura,Organic,100,26.00,67
+56,2015-01-12,High Mowing Seeds,Tomatoes,Plum Tomatoes,San Marzano,Organic,150,5.80,137
+57,2015-01-12,High Mowing Seeds,Beets,Red Beets,Boro,Organic,5000,32.00,25
+58,2015-01-12,High Mowing Seeds,Beets,Golden Beets,Touchstone,Organic,5000,28.00,26
+59,2015-01-12,High Mowing Seeds,Carrots,Orange Carrots,Jeannette,Organic,2000,9.20,27
+60,2015-01-12,Johnny's Selected Seeds,Carrots,Orange Carrots,Nectar,Organic,1000,9.45,28
+61,2015-01-13,Johnny's Selected Seeds,Carrots,Purple Carrots,Purple Haze,Untreated,1000,7.50,131
+62,2015-01-13,High Mowing Seeds,Carrots,Orange Carrots,Resistafly,Organic,2000,15.40,29
+64,2015-01-13,Johnny's Selected Seeds,Leeks,Leeks,Pandora,Organic,2000,17.20,30
+65,2015-01-13,Johnny's Selected Seeds,Leeks,Leeks,Lexton,Untreated,1000,28.60,31
+66,2015-01-13,High Mowing Seeds,Onions,Yellow Onions,Cortland,Organic,5000,22.75,33
+67,2015-01-13,High Mowing Seeds,Onions,Red Onions,Red Wing,Organic,5000,30.50,138
+68,2015-01-13,High Mowing Seeds,Onions,Bunching Onions,Pride,Organic,5000,35.50,34
+69,2015-01-13,High Mowing Seeds,Onions,Sweet Onions,Walla Walla,Organic,3500,15.50,32
+70,2015-01-13,High Mowing Seeds,Radishes,Radishes,Celesta,Organic,5000,28.00,35
+71,2015-01-13,Harris Seeds,Squash,Summer Squash,Multipik,Untreated,250,8.55,49
+72,2015-01-13,Harris Seeds,Squash,Zucchini,Elite,Untreated,500,23.10,47
+73,2015-01-13,Johnny's Selected Seeds,Squash,Zucchini,Spineless Perfection,Untreated,250,18.20,48
+74,2015-01-13,Johnny's Selected Seeds,Squash,Winter Squash,Butterscotch PMR,Organic,345,17.85,125
+75,2015-01-13,Johnny's Selected Seeds,Squash,Winter Squash,Delicata JS,Organic,470,7.95,133
+76,2015-01-13,High Mowing Seeds,Squash,Winter Squash,Spaghetti Squash,Organic,80,4.50,134
+77,2015-01-13,High Mowing Seeds,Squash,Winter Squash,Sugarbush,Organic,250,24.00,132
+78,2015-01-13,Territorial Seed Company,Tomatoes,Specialty Tomatoes,Indigo Kumquat,Untreated,20,10.90,140
+79,2015-01-13,Territorial Seed Company,Tomatoes,Specialty Tomatoes,Indigo Rose,Organic,40,6.90,139
+80,2015-01-19,Johnny's Selected Seeds,Tomatoes,Slicer Tomatoes,Mountain Fresh Plus,Untreated,500,27.00,142
+81,2015-04-09,Maine Potato Lady,Potatoes,Purple Potatoes,Purple Majesty,whole potato,50,38.00,39
+82,2015-04-09,Maine Potato Lady,Potatoes,Red Potatoes,Norlands,whole potato,100,140.00,36
+83,2015-04-09,Maine Potato Lady,Potatoes,Russet Potatoes,Russet Burbank,whole potato,100,140.00,38
+84,2015-04-09,Maine Potato Lady,Potatoes,White Potatoes,Kennebec,whole potato,100,140.00,37
+85,2015-05-28,Johnny's Selected Seeds,Melons,Watermelons,Sorbet Swirl,Untreated,100,12.00,168
+86,2015-05-28,Johnny's Selected Seeds,Burdock,Cardoons,Porto Spineless,Untreated,250,9.45,170
+87,2015-05-28,Johnny's Selected Seeds,Beets,Red Beets,Merlin,Organic,5000,13.25,169
+88,2015-05-28,Johnny's Selected Seeds,Beets,Golden Beets,Touchstone,Organic,5000,28.35,26
+89,2015-07-07,High Mowing Seeds,Lettuce,Mini Romaine,Ansar,Organic,500,9.00,176
+90,2015-07-07,High Mowing Seeds,Lettuce,Mini Romaine,Pomegranate Crunch,Organic,500,5.95,177
+91,2015-09-02,High Mowing Seeds,Radishes,Radishes,Celesta,Organic,5000,28.00,35
+92,2015-09-02,High Mowing Seeds,Garlic,Garlic,Music,Organic,15,342.00,121
+150,2015-12-29,New Sprout Farms,Potatoes,Sweet Potatoes,Covington,Organic,500,118.75,219
+93,2016-01-12,Johnny's Selected Seeds,Beans,Green Beans,Provider,Organic,5000,28.10,70
+94,2016-01-12,Johnny's Selected Seeds,Lettuce,Mini Romaine,Breen,Organic,1000,21.50,9
+95,2016-01-12,Johnny's Selected Seeds,Radishes,White Radishes,Ping Pong,Untreated,5000,9.95,221
+96,2016-01-12,Johnny's Selected Seeds,Burdock,Cardoons,Porto Spineless,Untreated,250,9.65,170
+97,2016-01-12,Johnny's Selected Seeds,Burdock,Artichokes,Imperial Star,Untreated,250,17.85,202
+98,2016-01-12,Johnny's Selected Seeds,Lettuce,Romaine,Green Forest,Untreated,1000,9.35,10
+99,2016-01-12,Johnny's Selected Seeds,Eggplant,Purple Eggplant,Nadia,Untreated,500,12.15,210
+100,2016-01-12,Johnny's Selected Seeds,Carrots,Orange Carrots,Sugarsnax 54,Untreated,10000,14.30,204
+101,2016-01-12,Johnny's Selected Seeds,Tomatoes,Slicer Tomatoes,Defiant,Organic,250,54.30,64
+102,2016-01-12,Johnny's Selected Seeds,Cucumbers,Slicer Cuke,Corinto,Organic,200,93.70,208
+103,2016-01-12,Johnny's Selected Seeds,Peppers,Hot Peppers,Cheyenne,Untreated,100,12.70,46
+104,2016-01-12,Johnny's Selected Seeds,Carrots,Purple Carrots,Purple Haze,Untreated,10000,25.00,131
+105,2016-01-12,Johnny's Selected Seeds,Leeks,Leeks,Pandora,Organic,10000,68.00,30
+106,2016-01-12,Johnny's Selected Seeds,Broccoli,Broccoli,Blue Wind,Untreated,1000,9.40,17
+107,2016-01-12,Johnny's Selected Seeds,Broccoli,Broccoli,Green Magic,Untreated,1000,7.70,18
+108,2016-01-12,Johnny's Selected Seeds,Kale,Green Kale,Starbor,Untreated,1000,13.25,214
+109,2016-01-12,Johnny's Selected Seeds,Lettuce,Salanova,Premier Collection,Untreated,1000,39.81,1
+110,2016-01-12,Johnny's Selected Seeds,Tomatoes,Slicer Tomatoes,Charger,Untreated,250,21.35,224
+111,2016-01-12,Johnny's Selected Seeds,Corn,Sweet Corn,SS2742,Untreated,6000,25.50,207
+112,2016-01-12,Johnny's Selected Seeds,Tomatoes,Cherry Tomatoes,Cherry Bomb,Organic,100,27.10,225
+113,2016-01-12,Johnny's Selected Seeds,Cucumbers,Slicer Cuke,Marketmore 76,Organic,2000,11.10,209
+114,2016-01-12,Johnny's Selected Seeds,Peppers,Mini Peppers,Lunchbox,Organic,250,27.55,136
+115,2016-01-12,Johnny's Selected Seeds,Peppers,Hot Peppers,Jalafuego,Untreated,100,12.70,45
+116,2016-01-12,Johnny's Selected Seeds,Lettuce,Mini Romaine,Dragoon,Organic,1000,21.50,8
+117,2016-01-12,Johnny's Selected Seeds,Lettuce,Green Leaf,Two Star,Organic,1000,8.60,2
+118,2016-01-12,Johnny's Selected Seeds,Lettuce,Red Leaf,Vulcan,Untreated,1000,8.95,5
+119,2016-01-12,Johnny's Selected Seeds,Celery,Celery,Tango,Organic,500,9.90,206
+120,2016-01-12,Johnny's Selected Seeds,Greens,Swiss Chard,Bright Lights,Untreated,2000,9.10,60
+121,2016-01-12,High Mowing Seeds,Beets,Golden Beets,Touchstone,Organic,5000,28.00,26
+122,2016-01-12,High Mowing Seeds,Cabbage,Green Cabbage,Farao,Organic,500,18.75,128
+123,2016-01-12,High Mowing Seeds,Cabbage,Red Cabbage,Integro,Organic,500,20.50,203
+124,2016-01-12,High Mowing Seeds,Carrots,Orange Carrots,Jeannette,Organic,25000,35.00,27
+125,2016-01-12,High Mowing Seeds,Carrots,Orange Carrots,Resistafly,Organic,10000,27.00,29
+126,2016-01-12,High Mowing Seeds,Cauliflower,Cauliflower,Janvel,Organic,500,34.00,115
+127,2016-01-12,High Mowing Seeds,Greens,Spinach,Renegade,Organic,5000,9.30,211
+128,2016-01-12,High Mowing Seeds,Greens,Asian Greens,Mizuna,Organic,7000,4.00,178
+129,2016-01-12,High Mowing Seeds,Greens,Arugula,Astro,Organic,9000,4.20,212
+130,2016-01-12,High Mowing Seeds,Greens,Greens Mix,Beta Blend,Organic,5000,7.30,213
+131,2016-01-12,High Mowing Seeds,Kale,Green Kale,Vates,Organic,3750,4.95,21
+132,2016-01-12,High Mowing Seeds,Onions,Sweet Onions,Walla Walla,Organic,3500,15.50,32
+133,2016-01-12,High Mowing Seeds,Onions,Yellow Onions,Cortland,Organic,5000,22.75,33
+134,2016-01-12,High Mowing Seeds,Onions,Red Onions,Red Wing,Organic,5000,30.50,138
+135,2016-01-12,High Mowing Seeds,Onions,Bunching Onions,Pride,Organic,5000,35.50,34
+136,2016-01-12,High Mowing Seeds,Radishes,Radishes,Celesta,Organic,5000,28.00,35
+137,2016-01-12,High Mowing Seeds,Tomatoes,Cherry Tomatoes,Esterina,Organic,100,15.50,68
+138,2016-01-12,High Mowing Seeds,Tomatoes,Specialty Tomatoes,Pink Bumblebee,Organic,25,4.00,226
+139,2016-01-12,High Mowing Seeds,Peppers,Specialty Peppers,Topepo Rosso,Organic,60,3.95,231
+140,2016-01-12,Territorial Seed Company,Tomatoes,Specialty Tomatoes,Indigo Kumquat,Untreated,20,10.90,140
+141,2016-01-12,Johnny's Selected Seeds,Cauliflower,Cauliflower,Sierra Madre,Untreated,1000,11.85,205
+142,2016-01-23,Harris Seeds,Beans,Yellow Beans,Rocdor,Untreated,10000,68.90,71
+143,2016-01-23,Harris Seeds,Melons,Cantaloupe,Superstar,Untreated,500,40.10,215
+144,2016-01-23,Harris Seeds,Peppers,Bell Peppers,Revolution,Untreated,500,63.90,216
+145,2016-01-23,Harris Seeds,Squash,Summer Squash,Multipik,Untreated,1000,29.95,49
+146,2016-01-23,Harris Seeds,Squash,Winter Squash,Butterfly,Untreated,250,13.95,222
+147,2016-01-23,Harris Seeds,Squash,Winter Squash,Royal Ace,Untreated,250,10.95,223
+148,2016-02-18,Holmes Seeds,Pumpkins,Pumpkins,OSC 8878,Untreated,200,59.20,166
+149,2016-02-18,Holmes Seeds,Pumpkins,Pumpkins,OSC 8880,Untreated,200,59.20,165
+155,2016-04-11,Johnny's Selected Seeds,Cauliflower,Cauliflower,Skywalker,Organic,500,27.95,114
+156,2016-04-11,Johnny's Selected Seeds,Cauliflower,Cauliflower,Bishop,Untreated,500,12.10,233
+151,2016-04-21,Johnny's Selected Seeds,Cucumbers,Slicer Cuke,Corinto,Organic,50,24.00,208
+152,2016-04-21,Johnny's Selected Seeds,Beets,Red Beets,Merlin,Organic,5000,18.65,169
+153,2016-04-21,Johnny's Selected Seeds,Beets,Golden Beets,Touchstone,Organic,5000,28.35,26
+154,2016-04-21,Johnny's Selected Seeds,Cucumbers,Mini Cuke,Iznik,Untreated,50,22.00,232
+158,2016-04-22,Maine Potato Lady,Potatoes,Red Potatoes,Norlands,Organic,100,140.00,36
+159,2016-04-22,Maine Potato Lady,Potatoes,Red Potatoes,Chieftan,Organic,100,180.00,217
+160,2016-05-06,High Mowing Seeds,Lettuce,Romaine,Jericho,Organic,1000,4.70,229
+161,2016-05-06,High Mowing Seeds,Radishes,Purple Radishes,Purple Plum,Organic,5000,8.40,220
+162,2016-05-10,High Mowing Seeds,Cucumbers,Specialty Cuke,Lemon,Organic,500,6.00,54
+163,2016-05-16,Johnny's Selected Seeds,Lettuce,Bibb,Adriana,Organic,1000,11.65,228
+164,2016-05-16,Johnny's Selected Seeds,Lettuce,Mini Romaine,Breen,Organic,1000,21.50,9
+165,2016-05-16,Johnny's Selected Seeds,Lettuce,Salanova,Premier Collection,Untreated,1000,39.81,1
+166,2016-05-16,Johnny's Selected Seeds,Lettuce,Green Leaf,Starfighter,Untreated,1000,14.65,227
+167,2016-05-16,Johnny's Selected Seeds,Lettuce,Mini Romaine,Dragoon,Organic,1000,21.50,8
+168,2016-05-16,Johnny's Selected Seeds,Lettuce,Red Leaf,New Red Fire,Organic,1000,6.70,76
+169,2016-05-31,High Mowing Seeds,Squash,Winter Squash,Spaghetti Squash,Organic,100,4.50,134
+170,2016-05-31,High Mowing Seeds,Squash,Winter Squash,Bush Delicata,Organic,100,7.00,237
+171,2016-05-31,High Mowing Seeds,Greens,Spinach,Renegade,Organic,5000,9.30,211
+174,2017-02-21,SeedWay,Broccoli,Broccoli,Lieutenant,untreated,50000,67.40,242
+175,2017-03-27,Harris Seeds,Broccoli,Broccoli,BC1691,untreated,85000,650.00,243
+176,2017-03-27,Harris Seeds,Broccoli,Broccoli,BC1764,untreated,10000,88.00,244
+172,2017-04-05,SeedWay,Broccoli,Broccoli,Burney,untreated,50000,61.50,245
+173,2017-04-05,SeedWay,Broccoli,Broccoli,Burney,untreated,50000,300.00,245
+177,2021-02-13,Johnny's Selected Seeds,Beans,Green Beans,Jade Green,Organic,1000,8.79,285
+178,2021-02-14,High Mowing Seeds,Radishes,Radishes,Sora,Organic,1000,4.50,286
+179,2021-02-14,High Mowing Seeds,Beets,Red Beets,Boro,Organic,1000,7.10,25
+180,2021-02-14,High Mowing Seeds,Beans,Yellow Beans,Goldrush,Organic,1000,11.55,287
+181,2021-02-14,High Mowing Seeds,Carrots,Orange Carrots,YaYa,Organic,2000,16.50,288
+182,2021-02-14,High Mowing Seeds,Greens,Swiss Chard,Improved Rainbow,Organic,2000,11.50,289
+183,2021-02-14,High Mowing Seeds,Corn,Sweet Corn,Allure,Organic,5000,85.00,290
+184,2021-02-14,High Mowing Seeds,Corn,Sweet Corn,Natural Sweet,Organic,1000,25.00,291
+185,2021-02-14,High Mowing Seeds,Cucumbers,Slicer Cuke,Marketmore 76,Organic,100,3.70,209
+186,2021-02-14,High Mowing Seeds,Eggplant,Purple Eggplant,Traviata,Organic,50,14.00,292
+187,2021-02-14,Johnny's Selected Seeds,Kale,Green Kale,Westlandse Winter,Organic,1000,27.20,293
+188,2021-02-14,Johnny's Selected Seeds,Kale,Red Kale,Red Bor,Untreated,1000,32.49,294
+189,2021-02-14,High Mowing Seeds,Onions,Red Onions,Red Carpet,Organic,1000,9.25,279
+190,2021-02-14,Johnny's Selected Seeds,Onions,Red Onions,Red Wing,Untreated,1000,17.00,138
+191,2021-02-14,Johnny's Selected Seeds,Onions,Sweet Onions,Walla Walla,Untreated,1000,16.00,32
+192,2021-02-14,High Mowing Seeds,Onions,Yellow Onions,Cortland,Organic,1000,6.95,33
+193,2021-02-14,Harris Seeds,Peppers,Bell Peppers,Revolution,Untreated,250,18.00,216
+194,2021-02-14,Harris Seeds,Peppers,Bell Peppers,Olympus,Untreated,250,6.00,40
+195,2021-02-14,Johnny's Selected Seeds,Broccoli,Broccoli,Monty,Untreated,1000,16.00,297
+196,2021-02-14,Johnny's Selected Seeds,Peppers,Hot Peppers,Jalafuego,Untreated,100,14.86,45
+197,2021-02-14,Harris Seeds,Tomatoes,Slicer Tomatoes,Skyway,Organic,50,17.45,299
+198,2021-02-14,Johnny's Selected Seeds,Peppers,Hot Peppers,Red Ember,Organic,100,14.86,298
+199,2021-02-14,High Mowing Seeds,Tomatoes,Cherry Tomatoes,Cherry Bomb,Organic,25,12.00,225
+200,2021-02-14,Johnny's Selected Seeds,Tomatoes,Slicer Tomatoes,Defiant,Organic,100,33.44,64
+201,2021-02-14,Johnny's Selected Seeds,Tomatoes,Slicer Tomatoes,Mountain Fresh Plus,Untreated,100,17.25,142
+202,2021-02-14,Holmes Seeds,Broccoli,Broccoli,Marathon,Untreated,1000,9.50,300
+203,2021-02-14,Johnny's Selected Seeds,Melons,Cantaloupe,Athena,Untreated,100,14.21,124
+204,2021-02-14,Johnny's Selected Seeds,Squash,Zucchini,Spineless Perfection,Untreated,250,26.66,48
+205,2021-02-14,Johnny's Selected Seeds,Squash,Winter,Tip Top,Organic,100,17.43,302
+206,2021-02-14,Johnny's Selected Seeds,Squash,Winter Squash,Spaghetti Squash,Untreated,100,6.13,134
+207,2021-02-14,Harris Seeds,Squash,Winter,Honey boat,Organic,1000,25.55,267
+208,2021-02-14,Harris Seeds,Squash,Winter,Honey nut,Organic,1000,25.55,268
+209,2021-02-14,Holmes Seeds,Pumpkins,Pumpkins,OSC 8878,Untreated,100,18.60,166
+210,2021-02-14,Holmes Seeds,Pumpkins,Pumpkins,Orion,Untreated,100,19.60,303
+211,2021-02-14,Johnny's Selected Seeds,Lettuce,Salanova,Premier Collection,Untreated,200,18.00,1
+212,2021-02-14,Johnny's Selected Seeds,Lettuce,Mini Romaine,Breen,Untreated,100,10.00,9
+213,2021-02-14,Johnny's Selected Seeds,Lettuce,Mini Romaine,Dragoon,Untreated,100,10.00,8
+214,2021-02-14,Maine Potato Lady,Potatoes,White Potatoes,Superior,Organic,20,39.00,304
+215,2021-02-14,Maine Potato Lady,Potatoes,Russet Potatoes,Goldrush,Organic,20,39.00,305
+216,2021-02-14,Maine Potato Lady,Potatoes,Yellow Potatoes,Lehigh,Organic,20,35.00,283
+217,2021-02-16,High Mowing Seeds,Melons,Watermelons,Crimson Sweet,organic,25,2.95,284

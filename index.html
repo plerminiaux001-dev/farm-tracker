@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Farm Tracker | Planting Schedule & Crop Manager</title>
+  <meta name="description" content="Touch-friendly planting calendar, task logger, and crop variety database for non-commercial farming.">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#16a34a">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Top Application Header -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-icon">🌱</span>
+      <span class="brand-title">Farm Tracker</span>
+    </div>
+
+    <!-- Desktop Navigation Tabs -->
+    <nav class="desktop-nav">
+      <button class="nav-btn active" data-view="tasks">📋 Tasks</button>
+      <button class="nav-btn" data-view="timeline">📅 Timeline</button>
+      <button class="nav-btn" data-view="catalog">🥕 Crops</button>
+      <button class="nav-btn" data-view="beds">📍 Beds</button>
+      <button class="nav-btn" data-view="history">📜 History</button>
+      <button class="nav-btn" data-view="settings">⚙️ Settings</button>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button class="btn btn-secondary btn-sm" onclick="syncWithGoogleSheets()" title="Sync with Google Sheets">
+        ☁️ Sync
+      </button>
+      <button class="btn btn-secondary btn-icon-only btn-sm" id="theme-toggle-btn" title="Toggle Light/Dark Mode">
+        ☀️
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Global Stats Overview -->
+    <section class="stats-grid">
+      <div class="stat-box primary">
+        <span class="stat-label">Tasks Due This Week</span>
+        <span class="stat-val" id="stat-due-tasks">0</span>
+      </div>
+      <div class="stat-box blue">
+        <span class="stat-label">In-Ground Crops</span>
+        <span class="stat-val" id="stat-active-crops">0</span>
+      </div>
+      <div class="stat-box amber">
+        <span class="stat-label">Total Active Plans</span>
+        <span class="stat-val" id="stat-total-plans">0</span>
+      </div>
+      <div class="stat-box purple">
+        <span class="stat-label">Harvests Logged</span>
+        <span class="stat-val" id="stat-harvests">0</span>
+      </div>
+    </section>
+
+    <!-- 1. TASKS & DASHBOARD VIEW -->
+    <section id="view-tasks" class="view-section active">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📋 Seasonal Planting Schedule & Action Items</div>
+          <button class="btn btn-primary btn-sm" onclick="switchView('catalog')">
+            ➕ Add Crop Plan
+          </button>
+        </div>
+        <div id="tasks-container" class="task-grid">
+          <!-- Populated by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. TIMELINE / GANTT VIEW -->
+    <section id="view-timeline" class="view-section">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📅 Annual Planting Timeline (Gantt Chart)</div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span class="badge badge-indoor">Indoor Sowing</span>
+            <span class="badge badge-plant">Growing in Ground</span>
+            <span class="badge badge-harvest">Harvest Window</span>
+          </div>
+        </div>
+
+        <div class="timeline-table-container">
+          <table class="timeline-table">
+            <thead>
+              <tr>
+                <th style="text-align: left; width: 220px;">Crop & Variety</th>
+                <th>Jan</th>
+                <th>Feb</th>
+                <th>Mar</th>
+                <th>Apr</th>
+                <th>May</th>
+                <th>Jun</th>
+                <th>Jul</th>
+                <th>Aug</th>
+                <th>Sep</th>
+                <th>Oct</th>
+                <th>Nov</th>
+                <th>Dec</th>
+              </tr>
+            </thead>
+            <tbody id="timeline-chart-body">
+              <!-- Populated by script.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CROPS & VARIETIES CATALOG -->
+    <section id="view-catalog" class="view-section">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🥕 Crop & Variety Catalog (<span id="catalog-results-count">239 varieties</span>)</div>
+        </div>
+
+        <div class="search-filter-bar">
+          <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="catalog-search-input" class="search-input" placeholder="Search crops, varieties (e.g. Salanova, Belstar, Carrots)...">
+          </div>
+          <select id="catalog-category-filter" class="filter-select">
+            <option value="all">All Categories</option>
+          </select>
+        </div>
+
+        <div id="catalog-grid" class="catalog-grid">
+          <!-- Populated by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. BEDS & FIELD VIEW -->
+    <section id="view-beds" class="view-section">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📍 Garden Beds & Rows Assignment</div>
+          <button class="btn btn-secondary btn-sm" onclick="switchView('settings')">
+            ⚙️ Edit Beds List
+          </button>
+        </div>
+        <div id="beds-container" class="beds-grid">
+          <!-- Populated by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. HISTORICAL LOGS & ANALYTICS -->
+    <section id="view-history" class="view-section">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📜 Historical Lifecycle Records</div>
+          <span class="badge badge-secondary" id="history-count-badge">3,264 records</span>
+        </div>
+
+        <div class="search-filter-bar">
+          <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="history-search-input" class="search-input" placeholder="Filter by vegetable, variety, bed, or notes...">
+          </div>
+          <select id="history-type-filter" class="filter-select">
+            <option value="all">All Event Types</option>
+            <option value="sow">Sow</option>
+            <option value="plant">Plant / Transplant</option>
+            <option value="harvest">Harvest</option>
+          </select>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="timeline-table" style="min-width: 700px;">
+            <thead>
+              <tr>
+                <th style="text-align: left; width: 110px;">Date</th>
+                <th style="width: 100px;">Type</th>
+                <th style="text-align: left;">Vegetable & Variety</th>
+                <th style="text-align: left;">Category</th>
+                <th style="width: 100px;">Bed / Row</th>
+                <th style="width: 80px;">Qty</th>
+                <th style="text-align: left;">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body">
+              <!-- Populated by script.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SETTINGS & GOOGLE SHEETS SYNC -->
+    <section id="view-settings" class="view-section">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⚙️ Farm Settings & Frost Dates</div>
+        </div>
+
+        <div class="form-row" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label class="form-label">Spring Last Frost Date</label>
+            <input type="date" id="setting-spring-frost" class="form-input">
+            <small style="color:var(--text-muted)">Used to calculate indoor seeding & transplant target dates.</small>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fall First Frost Date</label>
+            <input type="date" id="setting-fall-frost" class="form-input">
+            <small style="color:var(--text-muted)">Used to calculate late season fall crop cutoffs.</small>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label">Garden Beds / Rows List (comma-separated)</label>
+          <input type="text" id="setting-beds-list" class="form-input" placeholder="Bed 1, Bed 2, Greenhouse 1, Row A...">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label">Google Apps Script Web App URL</label>
+          <input type="url" id="setting-gas-url" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
+          <small style="color:var(--text-muted)">Deploy <code>google_apps_script.js</code> from your project in Google Sheets to enable free automatic cloud sync.</small>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap: wrap;">
+          <button class="btn btn-primary" onclick="saveSettingsFromForm()">
+            💾 Save Settings
+          </button>
+          <button class="btn btn-secondary" onclick="syncWithGoogleSheets()">
+            ☁️ Sync All to Google Sheets
+          </button>
+        </div>
+      </div>
+
+      <!-- Backup & Restore -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">💾 Backup & Offline Data</div>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom: 16px;">
+          Download a complete backup JSON of all your custom crops, planting schedules, and log entries, or restore an existing backup file.
+        </p>
+        <div style="display:flex; gap:12px; flex-wrap: wrap;">
+          <button class="btn btn-secondary" onclick="exportDataJson()">
+            📥 Download Backup (JSON)
+          </button>
+          <label class="btn btn-secondary" style="margin:0; cursor:pointer;">
+            📤 Restore Backup
+            <input type="file" id="import-json-input" accept=".json" style="display:none" onchange="importDataJson(event)">
+          </label>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-nav">
+    <button class="mob-nav-btn active" data-view="tasks">
+      <span class="icon">📋</span>
+      <span>Tasks</span>
+    </button>
+    <button class="mob-nav-btn" data-view="timeline">
+      <span class="icon">📅</span>
+      <span>Timeline</span>
+    </button>
+    <button class="mob-nav-btn" data-view="catalog">
+      <span class="icon">🥕</span>
+      <span>Crops</span>
+    </button>
+    <button class="mob-nav-btn" data-view="beds">
+      <span class="icon">📍</span>
+      <span>Beds</span>
+    </button>
+    <button class="mob-nav-btn" data-view="history">
+      <span class="icon">📜</span>
+      <span>History</span>
+    </button>
+    <button class="mob-nav-btn" data-view="settings">
+      <span class="icon">⚙️</span>
+      <span>Settings</span>
+    </button>
+  </nav>
+
+  <!-- Quick Action / Log Modal -->
+  <div id="quick-log-modal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title" id="log-crop-title">Log Action</div>
+        <button class="modal-close" onclick="closeModals()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="log-plan-id">
+        
+        <div class="form-group">
+          <label class="form-label">Lifecycle Action</label>
+          <select id="log-type" class="form-select">
+            <option value="sow">🌱 Sowed Seeds</option>
+            <option value="plant">🌿 Planted Out / Transplanted</option>
+            <option value="harvest">🧺 Harvested</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" id="log-date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quantity / Count</label>
+            <input type="number" id="log-qty" class="form-input" value="1">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Weight (lbs)</label>
+            <input type="number" id="log-weight" step="0.1" class="form-input" value="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Garden Bed / Row</label>
+            <input type="text" id="log-bed" class="form-input" placeholder="e.g. Bed 3">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Notes & Observations</label>
+          <textarea id="log-notes" class="form-textarea" placeholder="Weather, germination rate, pests, quality..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitQuickLog()">Save Log</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Plan Modal -->
+  <div id="add-plan-modal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title" id="plan-modal-title">Plan Sowing</div>
+        <button class="modal-close" onclick="closeModals()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="plan-modal-crop-id">
+
+        <div class="form-group">
+          <label class="form-label">Sowing Method</label>
+          <select id="plan-modal-type" class="form-select">
+            <option value="indoor">Indoor Seed Starting</option>
+            <option value="direct">Direct Sowing Outside</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Indoor Sow Date</label>
+            <input type="date" id="plan-modal-indoor-date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Plant Out / Direct Sow</label>
+            <input type="date" id="plan-modal-plant-date" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Expected Harvest Date</label>
+            <input type="date" id="plan-modal-harvest-date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Quantity / Plants</label>
+            <input type="number" id="plan-modal-qty" class="form-input" value="24">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Assigned Bed / Row</label>
+          <select id="plan-modal-bed" class="form-select">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitAddPlan()">Add to Schedule</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="./data/catalog.js"></script>
+  <script src="./data/history.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
