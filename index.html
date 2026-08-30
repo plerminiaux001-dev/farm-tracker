@@ -181,22 +181,78 @@
     <!-- 5. HISTORICAL LOGS & ANALYTICS -->
     <section id="view-history" class="view-section">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header" style="flex-wrap: wrap; gap: 10px;">
           <div class="card-title">📜 Historical Lifecycle Records</div>
-          <span class="badge badge-secondary" id="history-count-badge">3,264 records</span>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span class="badge badge-secondary" id="history-count-badge">3,264 records</span>
+            <button class="btn btn-secondary btn-sm" id="btn-toggle-advanced-filter" onclick="toggleAdvancedHistoryFilter()">
+              ⚡ Full Filters
+            </button>
+          </div>
         </div>
 
-        <div class="search-filter-bar">
+        <!-- Quick Filter Year & Type Pills -->
+        <div style="display:flex; flex-direction:column; gap:6px; margin-bottom: 12px;">
+          <!-- Year Quick Pills -->
+          <div class="filter-pills-row" id="history-year-pills">
+            <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700; align-self:center; margin-right:4px;">YEAR:</span>
+            <button class="pill-btn active" data-year="all" onclick="setHistoryYearFilter('all')">All Years</button>
+            <button class="pill-btn" data-year="2026" onclick="setHistoryYearFilter('2026')">2026</button>
+            <button class="pill-btn" data-year="2025" onclick="setHistoryYearFilter('2025')">2025</button>
+            <button class="pill-btn" data-year="2024" onclick="setHistoryYearFilter('2024')">2024</button>
+            <button class="pill-btn" data-year="2023" onclick="setHistoryYearFilter('2023')">2023</button>
+          </div>
+
+          <!-- Type Quick Pills -->
+          <div class="filter-pills-row" id="history-type-pills">
+            <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700; align-self:center; margin-right:4px;">TYPE:</span>
+            <button class="pill-btn active" data-type="all" onclick="setHistoryTypeFilter('all')">All Events</button>
+            <button class="pill-btn" data-type="sow" onclick="setHistoryTypeFilter('sow')">🌱 Sowed</button>
+            <button class="pill-btn" data-type="plant" onclick="setHistoryTypeFilter('plant')">🌿 Planted</button>
+            <button class="pill-btn" data-type="harvest" onclick="setHistoryTypeFilter('harvest')">🧺 Harvested</button>
+          </div>
+        </div>
+
+        <!-- Quick Search Bar -->
+        <div class="search-filter-bar" style="margin-bottom: 12px;">
           <div class="search-input-wrapper">
             <span class="search-icon">🔍</span>
-            <input type="text" id="history-search-input" class="search-input" placeholder="Filter by vegetable, variety, bed, or notes...">
+            <input type="text" id="history-search-input" class="search-input" placeholder="Search crops, varieties, beds, or notes (e.g. Garlic, Music, 50)...">
           </div>
-          <select id="history-type-filter" class="filter-select">
-            <option value="all">All Event Types</option>
-            <option value="sow">Sow</option>
-            <option value="plant">Plant / Transplant</option>
-            <option value="harvest">Harvest</option>
-          </select>
+        </div>
+
+        <!-- Collapsible Full / Advanced Filters Panel -->
+        <div id="history-advanced-panel" class="advanced-filter-panel">
+          <div class="card-title" style="font-size:0.95rem; margin-bottom:12px;">🔍 Full Filter Options</div>
+          <div class="filter-grid-layout">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="adv-category-filter" class="form-select" onchange="applyAdvancedHistoryFilter()">
+                <option value="all">All Categories</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Specific Year</label>
+              <select id="adv-year-filter" class="form-select" onchange="applyAdvancedHistoryFilter()">
+                <option value="all">All Historical Years</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Garden Bed / Row</label>
+              <input type="text" id="adv-bed-filter" class="form-input" placeholder="e.g. G1, 50, Garlic" oninput="applyAdvancedHistoryFilter()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date From</label>
+              <input type="date" id="adv-date-from" class="form-input" onchange="applyAdvancedHistoryFilter()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date To</label>
+              <input type="date" id="adv-date-to" class="form-input" onchange="applyAdvancedHistoryFilter()">
+            </div>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+            <button class="btn btn-secondary btn-sm" onclick="resetHistoryFilters()">Reset All Filters</button>
+          </div>
         </div>
 
         <!-- Mobile History Cards (<768px) -->

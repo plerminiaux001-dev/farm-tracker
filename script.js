@@ -24,7 +24,11 @@ const State = {
     timelineSort: 'start_date',
     historyQuery: '',
     historyType: 'all',
-    historyYear: 'all'
+    historyYear: 'all',
+    historyCategory: 'all',
+    historyBed: '',
+    historyDateFrom: '',
+    historyDateTo: ''
   }
 };
 
@@ -505,35 +509,69 @@ function renderHistoryView() {
   const container = document.getElementById('history-table-body');
   if (!container) return;
 
-  const q = State.filters.historyQuery.toLowerCase();
-  const typeFilter = State.filters.historyType;
-
-  // Combine user logs + imported history
   const allLogs = [...State.logs, ...State.historyLogs];
 
+  // Populate Advanced Filter Dropdowns if empty
+  const advCat = document.getElementById('adv-category-filter');
+  if (advCat && advCat.options.length <= 1) {
+    const cats = Array.from(new Set(allLogs.map(l => l.category).filter(Boolean))).sort();
+    cats.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      advCat.appendChild(opt);
+    });
+  }
+
+  const advYear = document.getElementById('adv-year-filter');
+  if (advYear && advYear.options.length <= 1) {
+    const years = Array.from(new Set(allLogs.map(l => (l.date || '').slice(0, 4)).filter(Boolean))).sort().reverse();
+    // Ensure 2026, 2025, 2024 are present
+    ['2026', '2025', '2024'].forEach(y => { if (!years.includes(y)) years.unshift(y); });
+    years.sort().reverse().forEach(y => {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      advYear.appendChild(opt);
+    });
+  }
+
+  const q = (State.filters.historyQuery || '').toLowerCase();
+  const typeFilter = State.filters.historyType || 'all';
+  const yearFilter = State.filters.historyYear || 'all';
+  const catFilter = State.filters.historyCategory || 'all';
+  const bedFilter = (State.filters.historyBed || '').toLowerCase();
+  const dateFrom = State.filters.historyDateFrom;
+  const dateTo = State.filters.historyDateTo;
+
   const filtered = allLogs.filter(log => {
+    const logDate = log.date || '';
+    const logYear = logDate.slice(0, 4);
+
     const matchQuery = !q || (log.vegetable && log.vegetable.toLowerCase().includes(q)) || 
                              (log.variety && log.variety.toLowerCase().includes(q)) || 
                              (log.category && log.category.toLowerCase().includes(q)) ||
-                             (log.row_id && log.row_id.toLowerCase().includes(q));
+                             (log.row_id && log.row_id.toLowerCase().includes(q)) ||
+                             (log.notes && log.notes.toLowerCase().includes(q));
+
     const matchType = typeFilter === 'all' || log.lifecycle_type === typeFilter;
-    return matchQuery && matchType;
+    const matchYear = yearFilter === 'all' || logYear === yearFilter;
+    const matchCat = catFilter === 'all' || (log.category && log.category.toLowerCase() === catFilter.toLowerCase());
+    const matchBed = !bedFilter || (log.row_id && log.row_id.toLowerCase().includes(bedFilter));
+    const matchFrom = !dateFrom || (logDate >= dateFrom);
+    const matchTo = !dateTo || (logDate <= dateTo);
+
+    return matchQuery && matchType && matchYear && matchCat && matchBed && matchFrom && matchTo;
   });
 
   const countBadge = document.getElementById('history-count-badge');
-  if (countBadge) countBadge.textContent = `${filtered.length} total entries`;
+  if (countBadge) countBadge.textContent = `${filtered.length} records found`;
 
-  if (filtered.length === 0) {
-    container.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 24px;">No historical logs found matching filters.</td></tr>`;
-    return;
-  }
-
-  
   // Render Mobile Cards (<768px)
   const mobileContainer = document.getElementById('history-cards-container');
   if (mobileContainer) {
     if (filtered.length === 0) {
-      mobileContainer.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">No matching records</div></div>`;
+      mobileContainer.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">No matching records</div><p>Try adjusting your search or filter pills.</p></div>`;
     } else {
       mobileContainer.innerHTML = filtered.slice(0, 100).map(l => {
         const badgeClass = l.lifecycle_type === 'sow' ? 'badge-sow' : (l.lifecycle_type === 'plant' ? 'badge-plant' : 'badge-harvest');
@@ -560,6 +598,12 @@ function renderHistoryView() {
     }
   }
 
+  // Render Desktop Table (>=768px)
+  if (filtered.length === 0) {
+    container.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 24px;">No records found matching filters.</td></tr>`;
+    return;
+  }
+
   container.innerHTML = filtered.slice(0, 100).map(l => {
     const badgeClass = l.lifecycle_type === 'sow' ? 'badge-sow' : (l.lifecycle_type === 'plant' ? 'badge-plant' : 'badge-harvest');
     return `
@@ -575,6 +619,7 @@ function renderHistoryView() {
     `;
   }).join('');
 }
+
 
 // --- Settings & Google Sheets View ---
 function renderSettingsView() {
@@ -1086,4 +1131,85 @@ function getSortedTimelinePlans() {
   });
 
   return plans;
+}
+
+
+// --- History Quick Filters & Advanced Panel Handlers ---
+function setHistoryYearFilter(year) {
+  State.filters.historyYear = year;
+  const advYear = document.getElementById('adv-year-filter');
+  if (advYear) advYear.value = year;
+
+  // Update pills active class
+  document.querySelectorAll('#history-year-pills .pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.year === year);
+  });
+
+  renderHistoryView();
+}
+
+function setHistoryTypeFilter(type) {
+  State.filters.historyType = type;
+
+  // Update pills active class
+  document.querySelectorAll('#history-type-pills .pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.type === type);
+  });
+
+  renderHistoryView();
+}
+
+function toggleAdvancedHistoryFilter() {
+  const panel = document.getElementById('history-advanced-panel');
+  const btn = document.getElementById('btn-toggle-advanced-filter');
+  if (!panel) return;
+  const isOpen = panel.classList.toggle('open');
+  if (btn) btn.classList.toggle('active', isOpen);
+}
+
+function applyAdvancedHistoryFilter() {
+  const catVal = document.getElementById('adv-category-filter').value;
+  const yearVal = document.getElementById('adv-year-filter').value;
+  const bedVal = document.getElementById('adv-bed-filter').value.trim();
+  const fromVal = document.getElementById('adv-date-from').value;
+  const toVal = document.getElementById('adv-date-to').value;
+
+  State.filters.historyCategory = catVal;
+  State.filters.historyYear = yearVal;
+  State.filters.historyBed = bedVal;
+  State.filters.historyDateFrom = fromVal;
+  State.filters.historyDateTo = toVal;
+
+  // Sync year pills
+  document.querySelectorAll('#history-year-pills .pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.year === yearVal);
+  });
+
+  renderHistoryView();
+}
+
+function resetHistoryFilters() {
+  State.filters.historyQuery = '';
+  State.filters.historyType = 'all';
+  State.filters.historyYear = 'all';
+  State.filters.historyCategory = 'all';
+  State.filters.historyBed = '';
+  State.filters.historyDateFrom = '';
+  State.filters.historyDateTo = '';
+
+  const searchInput = document.getElementById('history-search-input');
+  if (searchInput) searchInput.value = '';
+  const advCat = document.getElementById('adv-category-filter');
+  if (advCat) advCat.value = 'all';
+  const advYear = document.getElementById('adv-year-filter');
+  if (advYear) advYear.value = 'all';
+  const advBed = document.getElementById('adv-bed-filter');
+  if (advBed) advBed.value = '';
+  const advFrom = document.getElementById('adv-date-from');
+  if (advFrom) advFrom.value = '';
+  const advTo = document.getElementById('adv-date-to');
+  if (advTo) advTo.value = '';
+
+  setHistoryYearFilter('all');
+  setHistoryTypeFilter('all');
 }
