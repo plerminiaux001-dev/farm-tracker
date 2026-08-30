@@ -849,3 +849,91 @@ function setupServiceWorker() {
     });
   }
 }
+
+
+// --- Add Crop Modal Handlers ---
+function openAddCropModal() {
+  // Populate datalist with existing categories
+  const datalist = document.getElementById('category-datalist');
+  if (datalist) {
+    const categories = Array.from(new Set(State.crops.map(c => c.category))).sort();
+    datalist.innerHTML = categories.map(cat => `<option value="${cat}">`).join('');
+  }
+
+  // Reset fields
+  document.getElementById('crop-modal-category').value = '';
+  document.getElementById('crop-modal-vegetable').value = '';
+  document.getElementById('crop-modal-variety').value = '';
+  document.getElementById('crop-modal-icon').value = '🌱';
+  document.getElementById('crop-modal-sow-method').value = 'indoor';
+  document.getElementById('crop-modal-dtm').value = '65';
+  document.getElementById('crop-modal-indoor-weeks').value = '6';
+  document.getElementById('crop-modal-transplant-weeks').value = '2';
+  document.getElementById('crop-modal-spacing').value = '12';
+  document.getElementById('crop-modal-frost-hardy').value = 'tender';
+  updateCropModalOffsets();
+
+  document.getElementById('add-crop-modal').classList.add('active');
+}
+
+function updateCropModalOffsets() {
+  const method = document.getElementById('crop-modal-sow-method').value;
+  const groupIndoor = document.getElementById('group-indoor-weeks');
+  const groupTransplant = document.getElementById('group-transplant-weeks');
+
+  if (method === 'direct') {
+    if (groupIndoor) groupIndoor.style.display = 'none';
+    if (groupTransplant) {
+      groupTransplant.querySelector('.form-label').textContent = 'Weeks Direct Sow (Relative to Frost)';
+    }
+  } else {
+    if (groupIndoor) groupIndoor.style.display = 'flex';
+    if (groupTransplant) {
+      groupTransplant.querySelector('.form-label').textContent = 'Weeks to Plant (After Frost)';
+    }
+  }
+}
+
+function submitAddCrop() {
+  const veg = document.getElementById('crop-modal-vegetable').value.trim();
+  if (!veg) {
+    showToast('Please enter a vegetable name.', 'error');
+    return;
+  }
+
+  const cat = document.getElementById('crop-modal-category').value.trim() || veg;
+  const varName = document.getElementById('crop-modal-variety').value.trim();
+  const icon = document.getElementById('crop-modal-icon').value.trim() || '🌱';
+  const sowMethod = document.getElementById('crop-modal-sow-method').value;
+  const dtm = Number(document.getElementById('crop-modal-dtm').value) || 60;
+  const indoorWeeks = Number(document.getElementById('crop-modal-indoor-weeks').value) || 6;
+  const transplantWeeks = Number(document.getElementById('crop-modal-transplant-weeks').value) || 0;
+  const spacing = Number(document.getElementById('crop-modal-spacing').value) || 12;
+  const isFrostHardy = document.getElementById('crop-modal-frost-hardy').value === 'hardy';
+
+  const newCrop = {
+    id: 'custom_' + Date.now(),
+    category: cat,
+    vegetable: veg,
+    variety: varName,
+    pos_description: varName || veg,
+    name: varName ? `${cat} - ${veg} (${varName})` : `${cat} - ${veg}`,
+    short_name: varName ? `${veg} (${varName})` : veg,
+    sow_method: sowMethod,
+    indoor_weeks: sowMethod === 'direct' ? null : indoorWeeks,
+    transplant_weeks: sowMethod === 'direct' ? null : transplantWeeks,
+    direct_sow_weeks: sowMethod === 'direct' ? transplantWeeks : null,
+    dtm: dtm,
+    spacing_in: spacing,
+    row_spacing_in: spacing * 1.5,
+    frost_hardy: isFrostHardy,
+    icon: icon,
+    is_custom: true
+  };
+
+  State.crops.unshift(newCrop);
+  saveLocal();
+  closeModals();
+  showToast(`Added ${newCrop.name} to catalog!`, 'success');
+  renderCatalogView();
+}

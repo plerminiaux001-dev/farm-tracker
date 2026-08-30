@@ -121,6 +121,9 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">🥕 Crop & Variety Catalog (<span id="catalog-results-count">239 varieties</span>)</div>
+          <button class="btn btn-primary btn-sm" onclick="openAddCropModal()">
+            ➕ New Crop
+          </button>
         </div>
 
         <div class="search-filter-bar">
@@ -390,6 +393,86 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
         <button class="btn btn-primary" onclick="submitAddPlan()">Add to Schedule</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Add New Crop Modal -->
+  <div id="add-crop-modal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">➕ Add New Crop / Variety</div>
+        <button class="modal-close" onclick="closeModals()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <input type="text" id="crop-modal-category" class="form-input" list="category-datalist" placeholder="e.g. Tomatoes, Greens">
+            <datalist id="category-datalist"></datalist>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Icon / Emoji</label>
+            <input type="text" id="crop-modal-icon" class="form-input" value="🌱" style="text-align:center; font-size:1.3rem;">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Vegetable / Crop Name *</label>
+            <input type="text" id="crop-modal-vegetable" class="form-input" placeholder="e.g. Heirloom Tomato, Spinach" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Variety Name</label>
+            <input type="text" id="crop-modal-variety" class="form-input" placeholder="e.g. Cherokee Purple, Bloomsdale">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Sowing Method</label>
+            <select id="crop-modal-sow-method" class="form-select" onchange="updateCropModalOffsets()">
+              <option value="indoor">Indoor Seed Starting</option>
+              <option value="direct">Direct Sowing Outside</option>
+              <option value="both">Both Indoor & Direct</option>
+              <option value="perennial">Perennial / Long-term</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Days to Maturity (DTM)</label>
+            <input type="number" id="crop-modal-dtm" class="form-input" value="65">
+          </div>
+        </div>
+
+        <div class="form-row" id="crop-modal-offsets-row">
+          <div class="form-group" id="group-indoor-weeks">
+            <label class="form-label">Weeks Indoor Before Frost</label>
+            <input type="number" id="crop-modal-indoor-weeks" class="form-input" value="6">
+          </div>
+          <div class="form-group" id="group-transplant-weeks">
+            <label class="form-label">Weeks to Plant (After Frost)</label>
+            <input type="number" id="crop-modal-transplant-weeks" class="form-input" value="2">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">In-Row Spacing (inches)</label>
+            <input type="number" id="crop-modal-spacing" class="form-input" value="12">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Frost Tolerance</label>
+            <select id="crop-modal-frost-hardy" class="form-select">
+              <option value="tender">Tender (Warm Season)</option>
+              <option value="hardy">Frost Hardy (Cool Season)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitAddCrop()">Save Variety</button>
       </div>
     </div>
   </div>

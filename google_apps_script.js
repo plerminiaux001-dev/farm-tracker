@@ -98,6 +98,33 @@ function doPost(e) {
     
     if (action === 'syncBulk') {
       // Sync bulk logs, plans, and crops
+      
+      if (payload.crops && payload.crops.length > 0) {
+        var cropSheet = ss.getSheetByName('Crops');
+        var existingData = cropSheet.getDataRange().getValues();
+        var existingNames = {};
+        for (var i = 1; i < existingData.length; i++) {
+          existingNames[existingData[i][1] + '_' + existingData[i][2] + '_' + existingData[i][3]] = true;
+        }
+        payload.crops.forEach(function(c) {
+          var key = (c.category || '') + '_' + (c.vegetable || '') + '_' + (c.variety || '');
+          if (!existingNames[key]) {
+            cropSheet.appendRow([
+              c.id || Utilities.getUuid(),
+              c.category || '',
+              c.vegetable || '',
+              c.variety || '',
+              c.pos_description || '',
+              c.sow_method || 'indoor',
+              c.dtm || 65,
+              c.spacing_in || 12,
+              new Date()
+            ]);
+            existingNames[key] = true;
+          }
+        });
+      }
+
       if (payload.logs && payload.logs.length > 0) {
         var logSheet = ss.getSheetByName('Logs');
         payload.logs.forEach(function(l) {
