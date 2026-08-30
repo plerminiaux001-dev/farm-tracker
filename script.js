@@ -21,6 +21,7 @@ const State = {
     catalogQuery: '',
     catalogCategory: 'all',
     timelineCategory: 'all',
+    timelineSort: 'start_date',
     historyQuery: '',
     historyType: 'all',
     historyYear: 'all'
@@ -326,10 +327,7 @@ function renderTimelineView() {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const currentYear = new Date(State.settings.springFrost).getFullYear() || 2026;
 
-  let filteredPlans = State.plans;
-  if (State.filters.timelineCategory !== 'all') {
-    filteredPlans = filteredPlans.filter(p => p.category.toLowerCase() === State.filters.timelineCategory.toLowerCase());
-  }
+  const filteredPlans = getSortedTimelinePlans();
 
   if (filteredPlans.length === 0) {
     container.innerHTML = `<tr><td colspan="13" style="text-align:center; padding: 24px;">No plans matching filter.</td></tr>`;
@@ -837,6 +835,16 @@ function bindEvents() {
   });
 
   // Theme Toggle
+  
+  // Timeline Sort
+  const tlSort = document.getElementById('timeline-sort-select');
+  if (tlSort) {
+    tlSort.addEventListener('change', (e) => {
+      State.filters.timelineSort = e.target.value;
+      renderTimelineView();
+    });
+  }
+
   const themeBtn = document.getElementById('theme-toggle-btn');
   if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
 
@@ -993,13 +1001,13 @@ function setTimelineViewMode(mode) {
 function renderTimelineCards() {
   const container = document.getElementById('timeline-cards-container');
   if (!container) return;
-
-  if (State.plans.length === 0) {
+  const sortedPlans = getSortedTimelinePlans();
+  if (sortedPlans.length === 0) {
     container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🌱</div><div class="empty-state-title">No planting plans yet</div></div>`;
     return;
   }
 
-  container.innerHTML = State.plans.map(plan => {
+  container.innerHTML = sortedPlans.map(plan => {
     const indoorText = plan.indoor_sow_date || 'N/A (Direct)';
     const plantText = plan.plant_date || 'Flexible';
     const harvestText = plan.harvest_start ? `${plan.harvest_start} ➔ ${plan.harvest_end || ''}` : 'Est. +60d';
@@ -1047,4 +1055,35 @@ function renderTimelineCards() {
       </div>
     `;
   }).join('');
+}
+
+
+function getSortedTimelinePlans() {
+  let plans = [...State.plans];
+
+  // Category filter
+  if (State.filters.timelineCategory && State.filters.timelineCategory !== 'all') {
+    plans = plans.filter(p => p.category.toLowerCase() === State.filters.timelineCategory.toLowerCase());
+  }
+
+  // Sort
+  const sortBy = State.filters.timelineSort || 'start_date';
+  plans.sort((a, b) => {
+    if (sortBy === 'start_date') {
+      const dateA = a.indoor_sow_date || a.plant_date || '9999-12-31';
+      const dateB = b.indoor_sow_date || b.plant_date || '9999-12-31';
+      return dateA.localeCompare(dateB);
+    } else if (sortBy === 'harvest_date') {
+      const dateA = a.harvest_start || '9999-12-31';
+      const dateB = b.harvest_start || '9999-12-31';
+      return dateA.localeCompare(dateB);
+    } else if (sortBy === 'crop_name') {
+      return (a.name || '').localeCompare(b.name || '');
+    } else if (sortBy === 'bed') {
+      return (a.row_bed || 'zzz').localeCompare(b.row_bed || 'zzz');
+    }
+    return 0;
+  });
+
+  return plans;
 }

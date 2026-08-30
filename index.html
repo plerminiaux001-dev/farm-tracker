@@ -77,20 +77,30 @@
       </div>
     </section>
 
-    <!-- 2. TIMELINE / GANTT VIEW -->
+        <!-- 2. TIMELINE / GANTT VIEW -->
     <section id="view-timeline" class="view-section">
       <div class="card">
         <div class="card-header" style="flex-wrap: wrap; gap: 10px;">
           <div class="card-title">📅 Planting Schedule & Timeline</div>
           
-          <!-- Mobile View Switcher -->
-          <div class="view-toggle-bar">
-            <button class="toggle-opt-btn active" id="btn-timeline-cards" onclick="setTimelineViewMode('cards')">
-              📱 Schedule Cards
-            </button>
-            <button class="toggle-opt-btn" id="btn-timeline-gantt" onclick="setTimelineViewMode('gantt')">
-              📊 12-Mo Gantt
-            </button>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <!-- Sort Selector -->
+            <select id="timeline-sort-select" class="filter-select" style="min-height: 36px; height: 36px; font-size: 0.85rem;">
+              <option value="start_date">📅 Sort: Earliest Start Date</option>
+              <option value="harvest_date">🧺 Sort: Harvest Date</option>
+              <option value="crop_name">🔤 Sort: Crop Name (A-Z)</option>
+              <option value="bed">📍 Sort: Garden Bed</option>
+            </select>
+
+            <!-- View Mode Switcher -->
+            <div class="view-toggle-bar">
+              <button class="toggle-opt-btn active" id="btn-timeline-cards" onclick="setTimelineViewMode('cards')">
+                📱 Schedule Cards
+              </button>
+              <button class="toggle-opt-btn" id="btn-timeline-gantt" onclick="setTimelineViewMode('gantt')">
+                📊 12-Mo Gantt
+              </button>
+            </div>
           </div>
         </div>
 
