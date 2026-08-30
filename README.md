@@ -2,6 +2,8 @@
 
 A fast, touch-friendly, zero-cost web application designed for non-commercial farming and gardening to plan plantings (indoor sow, plant out, expected harvests), manage crop varieties, track beds, and sync seamlessly with Google Sheets.
 
+> 📖 **Looking for simple, non-technical instructions?** Check out the [**User Guide & How-To Instructions (docs/USER_GUIDE.md)**](./docs/USER_GUIDE.md) to get started in 5 minutes!
+
 ---
 
 ## 🌟 Key Features
@@ -9,8 +11,12 @@ A fast, touch-friendly, zero-cost web application designed for non-commercial fa
 - **Dynamic Planting Calendar**:
   - Automatically calculates indoor seed starting dates, outdoor transplanting dates, direct sowing windows, and harvest windows based on your configurable Spring Last Frost and Fall First Frost dates.
 - **Mobile-First & Touch-Friendly**:
-  - Optimized for phones (e.g. Google Pixel), tablets, and desktops.
+  - Optimized for phones (Google Pixel, iPhone, iPad, Android) and desktops.
   - Large tap targets, bottom navigation bar on mobile, and responsive touch cards.
+  - Installable as a Progressive Web App (PWA) with full offline garden support.
+- **Intuitive Garden Bed Management**:
+  - Add, rename, and delete garden beds and field rows directly from the **📍 Beds** tab.
+  - See active plantings per bed and plant directly into any bed with 1 tap.
 - **Pre-Seeded with 239 Crop Varieties**:
   - Complete agronomic defaults (days to maturity, in-row spacing, indoor lead weeks, frost tolerance).
   - Add new custom crops on the fly with the in-app **➕ New Crop** creator.
@@ -20,11 +26,18 @@ A fast, touch-friendly, zero-cost web application designed for non-commercial fa
   - **Sort Selector**: Sort plans by Earliest Start Date, Harvest Date, Crop Name (A-Z), or Garden Bed.
 - **Historical Logs Explorer**:
   - Filter and search over 3,200+ historical lifecycle logs by vegetable, variety, event type (Sow, Plant, Harvest), and bed.
-- **Zero-Cost Hosting**:
+- **Data Management & Clean Slate**:
+  - Start fresh whenever you want with built-in clear schedule / clear logs buttons in Settings.
+  - Full JSON backup and restore capabilities.
+- **Zero-Cost Hosting & Cloud Sync**:
   - Runs 100% free on **GitHub Pages**.
-  - Progressive Web App (PWA) support for offline usage in the garden and installation to your mobile home screen.
-- **Two-Way Google Sheets Sync**:
-  - Built-in serverless Google Apps Script backend (`google_apps_script.js`) for 1-click cloud sync without hosting fees.
+  - Built-in serverless Google Apps Script backend ([`google_apps_script.js`](./google_apps_script.js)) for 1-click cloud sync with Google Sheets.
+
+---
+
+## 📚 Documentation & Guides
+
+- 🧑‍🌾 [**Simple User Guide & How-To (docs/USER_GUIDE.md)**](./docs/USER_GUIDE.md) — Step-by-step walkthrough covering frost dates, beds, planning crops, logging harvests, and adding the app to your phone's home screen.
 
 ---
 
@@ -64,6 +77,8 @@ Visit `http://localhost:8080` (or `http://<your-local-ip>:8080` on your phone).
 ├── manifest.json           # PWA configuration
 ├── sw.js                   # Service worker for offline caching
 ├── google_apps_script.js   # Google Sheets serverless backend template
+├── docs/
+│   └── USER_GUIDE.md       # Beginner-friendly step-by-step user guide
 └── data/
     ├── catalog.js          # 239 Pre-seeded crop varieties with agronomic defaults
     ├── history.js          # 3,264 Historical lifecycle logs
