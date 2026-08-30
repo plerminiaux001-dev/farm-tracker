@@ -80,16 +80,27 @@
     <!-- 2. TIMELINE / GANTT VIEW -->
     <section id="view-timeline" class="view-section">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">📅 Annual Planting Timeline (Gantt Chart)</div>
-          <div style="display:flex; gap:8px; align-items:center;">
-            <span class="badge badge-indoor">Indoor Sowing</span>
-            <span class="badge badge-plant">Growing in Ground</span>
-            <span class="badge badge-harvest">Harvest Window</span>
+        <div class="card-header" style="flex-wrap: wrap; gap: 10px;">
+          <div class="card-title">📅 Planting Schedule & Timeline</div>
+          
+          <!-- Mobile View Switcher -->
+          <div class="view-toggle-bar">
+            <button class="toggle-opt-btn active" id="btn-timeline-cards" onclick="setTimelineViewMode('cards')">
+              📱 Schedule Cards
+            </button>
+            <button class="toggle-opt-btn" id="btn-timeline-gantt" onclick="setTimelineViewMode('gantt')">
+              📊 12-Mo Gantt
+            </button>
           </div>
         </div>
 
-        <div class="timeline-table-container">
+        <!-- Schedule Milestone Cards (Mobile Friendly) -->
+        <div id="timeline-cards-container" class="schedule-cards-grid">
+          <!-- Populated by script.js -->
+        </div>
+
+        <!-- 12-Month Gantt Chart (Desktop / Overview) -->
+        <div id="timeline-gantt-container" class="timeline-table-container" style="display: none; margin-top: 14px;">
           <table class="timeline-table">
             <thead>
               <tr>
@@ -178,7 +189,13 @@
           </select>
         </div>
 
-        <div style="overflow-x: auto;">
+        <!-- Mobile History Cards (<768px) -->
+        <div id="history-cards-container" class="history-cards-container">
+          <!-- Populated by script.js -->
+        </div>
+
+        <!-- Desktop History Table (>=768px) -->
+        <div class="history-desktop-table">
           <table class="timeline-table" style="min-width: 700px;">
             <thead>
               <tr>

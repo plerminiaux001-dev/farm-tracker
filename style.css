@@ -829,3 +829,201 @@ body {
   color: var(--text-main);
   margin-bottom: 6px;
 }
+
+
+/* ==========================================================================
+   Mobile-First Timeline Cards & Responsive History Cards
+   ========================================================================== */
+
+/* Toggle Switch Bar */
+.view-toggle-bar {
+  display: inline-flex;
+  background: var(--bg-input);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  gap: 4px;
+}
+
+.toggle-opt-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.toggle-opt-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 2px 6px var(--primary-glow);
+}
+
+/* Mobile Timeline / Schedule Cards */
+.schedule-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.schedule-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.schedule-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.schedule-crop-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.schedule-variety-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* 3-Phase Milestone Stepper */
+.milestone-stepper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: var(--bg-input);
+  padding: 10px;
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 480px) {
+  .milestone-stepper {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+.milestone-node {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.milestone-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.milestone-label.indoor { color: #c084fc; }
+.milestone-label.plant { color: #4ade80; }
+.milestone-label.harvest { color: #fbbf24; }
+
+.milestone-date {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Compact Progress Bar */
+.mini-progress-track {
+  display: flex;
+  height: 8px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background: rgba(255,255,255,0.06);
+  gap: 2px;
+}
+.progress-phase-indoor { background: #9333ea; flex: 1; }
+.progress-phase-ground { background: #16a34a; flex: 1.5; }
+.progress-phase-harvest { background: #d97706; flex: 1; }
+
+/* Responsive History: Table on Desktop, Cards on Mobile */
+.history-cards-container {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-desktop-table {
+  display: block;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .history-desktop-table {
+    display: none !important;
+  }
+  .history-cards-container {
+    display: flex !important;
+  }
+}
+
+.history-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.history-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-card-date {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.history-card-main {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.history-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.history-card-tag {
+  background: var(--bg-input);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+}
+
+.history-card-notes {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+  background: rgba(255,255,255,0.02);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary);
+}

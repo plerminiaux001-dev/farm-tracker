@@ -16,6 +16,7 @@ const State = {
     beds: ['Bed 1', 'Bed 2', 'Bed 3', 'Bed 4', 'Bed 5', 'Bed 6', 'Bed 7', 'Bed 8', 'Greenhouse 1', 'Greenhouse 2', 'Row A', 'Row B', 'Row C']
   },
   currentView: 'tasks',
+  timelineViewMode: 'cards',
   filters: {
     catalogQuery: '',
     catalogCategory: 'all',
@@ -318,6 +319,7 @@ function renderTasksView() {
 
 // --- Timeline / Gantt View ---
 function renderTimelineView() {
+  renderTimelineCards();
   const container = document.getElementById('timeline-chart-body');
   if (!container) return;
 
@@ -526,6 +528,38 @@ function renderHistoryView() {
   if (filtered.length === 0) {
     container.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 24px;">No historical logs found matching filters.</td></tr>`;
     return;
+  }
+
+  
+  // Render Mobile Cards (<768px)
+  const mobileContainer = document.getElementById('history-cards-container');
+  if (mobileContainer) {
+    if (filtered.length === 0) {
+      mobileContainer.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">No matching records</div></div>`;
+    } else {
+      mobileContainer.innerHTML = filtered.slice(0, 100).map(l => {
+        const badgeClass = l.lifecycle_type === 'sow' ? 'badge-sow' : (l.lifecycle_type === 'plant' ? 'badge-plant' : 'badge-harvest');
+        const icon = l.lifecycle_type === 'sow' ? '🌱' : (l.lifecycle_type === 'plant' ? '🌿' : '🧺');
+        return `
+          <div class="history-card">
+            <div class="history-card-top">
+              <span class="badge ${badgeClass}">${icon} ${(l.lifecycle_type || 'log').toUpperCase()}</span>
+              <span class="history-card-date">📅 ${l.date || 'N/A'}</span>
+            </div>
+            <div class="history-card-main">
+              ${l.vegetable || ''} ${l.variety ? '<span style="color:var(--text-muted); font-weight:normal">(' + l.variety + ')</span>' : ''}
+            </div>
+            <div class="history-card-tags">
+              <span class="history-card-tag">📂 ${l.category || 'General'}</span>
+              <span class="history-card-tag">📍 Bed: ${l.row_id || '—'}</span>
+              <span class="history-card-tag">🎯 Qty: ${l.quantity || 0}</span>
+              ${l.weight ? `<span class="history-card-tag">⚖️ ${l.weight} lbs</span>` : ''}
+            </div>
+            ${l.notes ? `<div class="history-card-notes">📝 ${l.notes}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
   }
 
   container.innerHTML = filtered.slice(0, 100).map(l => {
@@ -936,4 +970,81 @@ function submitAddCrop() {
   closeModals();
   showToast(`Added ${newCrop.name} to catalog!`, 'success');
   renderCatalogView();
+}
+
+
+// --- Timeline View Switcher & Mobile Milestone Cards ---
+function setTimelineViewMode(mode) {
+  State.timelineViewMode = mode;
+  const btnCards = document.getElementById('btn-timeline-cards');
+  const btnGantt = document.getElementById('btn-timeline-gantt');
+  const containerCards = document.getElementById('timeline-cards-container');
+  const containerGantt = document.getElementById('timeline-gantt-container');
+
+  if (btnCards) btnCards.classList.toggle('active', mode === 'cards');
+  if (btnGantt) btnGantt.classList.toggle('active', mode === 'gantt');
+
+  if (containerCards) containerCards.style.display = mode === 'cards' ? 'flex' : 'none';
+  if (containerGantt) containerGantt.style.display = mode === 'gantt' ? 'block' : 'none';
+
+  renderTimelineView();
+}
+
+function renderTimelineCards() {
+  const container = document.getElementById('timeline-cards-container');
+  if (!container) return;
+
+  if (State.plans.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🌱</div><div class="empty-state-title">No planting plans yet</div></div>`;
+    return;
+  }
+
+  container.innerHTML = State.plans.map(plan => {
+    const indoorText = plan.indoor_sow_date || 'N/A (Direct)';
+    const plantText = plan.plant_date || 'Flexible';
+    const harvestText = plan.harvest_start ? `${plan.harvest_start} ➔ ${plan.harvest_end || ''}` : 'Est. +60d';
+
+    return `
+      <div class="schedule-card">
+        <div class="schedule-card-header">
+          <div>
+            <div class="schedule-crop-title">${plan.icon || '🌱'} ${plan.name}</div>
+            <div class="schedule-variety-sub">
+              ${plan.variety ? 'Variety: ' + plan.variety + ' • ' : ''}Bed: <strong>${plan.row_bed || 'Unassigned'}</strong>
+            </div>
+          </div>
+          <span class="badge ${plan.status === 'in_ground' ? 'badge-plant' : (plan.status === 'harvested' ? 'badge-harvest' : 'badge-indoor')}">
+            ${plan.status.toUpperCase()}
+          </span>
+        </div>
+
+        <div class="mini-progress-track">
+          <div class="progress-phase-indoor" title="Indoor Seed Phase"></div>
+          <div class="progress-phase-ground" title="In-Ground Growth"></div>
+          <div class="progress-phase-harvest" title="Harvest Window"></div>
+        </div>
+
+        <div class="milestone-stepper">
+          <div class="milestone-node">
+            <span class="milestone-label indoor">🟣 1. Indoor Sow</span>
+            <span class="milestone-date">${indoorText}</span>
+          </div>
+          <div class="milestone-node">
+            <span class="milestone-label plant">🌱 2. In-Ground</span>
+            <span class="milestone-date">${plantText}</span>
+          </div>
+          <div class="milestone-node">
+            <span class="milestone-label harvest">🧺 3. Harvest</span>
+            <span class="milestone-date">${harvestText}</span>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:2px;">
+          <button class="btn btn-primary btn-sm" onclick="openQuickLogModal('${plan.id}', '${plan.status === 'sowed' ? 'plant' : (plan.status === 'in_ground' ? 'harvest' : 'sow')}')">
+            ✓ Log Action
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
