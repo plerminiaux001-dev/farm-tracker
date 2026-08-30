@@ -11,7 +11,7 @@ const State = {
   settings: {
     springFrost: '2026-05-15',
     fallFrost: '2026-10-15',
-    gasUrl: '',
+    gasUrl: 'https://script.google.com/macros/s/AKfycbyLKecCYPovUPM_n_eVksbdfvhJoUBCCTMOTuB0R_RpRX96R-PragQHUC2Q-h94lFz8eg/exec',
     theme: 'dark',
     beds: ['Bed 1', 'Bed 2', 'Bed 3', 'Bed 4', 'Bed 5', 'Bed 6', 'Bed 7', 'Bed 8', 'Greenhouse 1', 'Greenhouse 2', 'Row A', 'Row B', 'Row C']
   },
