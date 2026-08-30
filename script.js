@@ -62,14 +62,15 @@ function loadStoredData() {
   if (savedPlans) {
     State.plans = JSON.parse(savedPlans);
   } else {
-    // Generate starter sample plans if empty
-    generateSamplePlans();
+    State.plans = [];
   }
 
   // Load User Logs
   const savedLogs = localStorage.getItem('ft_logs');
   if (savedLogs) {
     State.logs = JSON.parse(savedLogs);
+  } else {
+    State.logs = [];
   }
 
   // Load Historical Logs from history.js
@@ -85,37 +86,39 @@ function saveLocal() {
   localStorage.setItem('ft_custom_crops', JSON.stringify(State.crops.filter(c => c.is_custom)));
 }
 
-// Generate intelligent default plans for the current year
-function generateSamplePlans() {
-  const popularCrops = ['Tomatoes', 'Peppers', 'Broccoli', 'Kale', 'Lettuce', 'Carrots', 'Cucumbers', 'Beans', 'Garlic', 'Onions'];
-  const samples = [];
-
-  popularCrops.forEach((cat, idx) => {
-    const crop = State.crops.find(c => c.category.toLowerCase() === cat.toLowerCase());
-    if (crop) {
-      const dates = calculateCropDates(crop, State.settings.springFrost, State.settings.fallFrost);
-      samples.push({
-        id: 'plan_' + Date.now() + '_' + idx,
-        crop_id: crop.id,
-        category: crop.category,
-        vegetable: crop.vegetable,
-        variety: crop.variety || '',
-        name: crop.name,
-        icon: crop.icon || '🌱',
-        sow_type: crop.sow_method === 'direct' ? 'direct' : 'indoor',
-        indoor_sow_date: dates.indoorSowDate,
-        plant_date: dates.plantDate,
-        harvest_start: dates.harvestStartDate,
-        harvest_end: dates.harvestEndDate,
-        row_bed: State.settings.beds[idx % State.settings.beds.length],
-        target_quantity: 24,
-        status: 'planned'
-      });
-    }
-  });
-
-  State.plans = samples;
+// --- Data Management Utilities ---
+function clearAllPlans() {
+  if (!confirm('Are you sure you want to clear all planting plans from your schedule? This action cannot be undone.')) {
+    return;
+  }
+  State.plans = [];
   saveLocal();
+  showToast('All planting plans cleared. Clean slate ready!', 'success');
+  renderAllViews();
+}
+
+function clearAllLogs() {
+  if (!confirm('Are you sure you want to clear all logged user actions (sowings, plantings, harvests)? This action cannot be undone.')) {
+    return;
+  }
+  State.logs = [];
+  saveLocal();
+  showToast('All user activity logs cleared.', 'success');
+  renderAllViews();
+}
+
+function resetAllAppData() {
+  if (!confirm('Are you sure you want to reset all data (plans, logs, and custom crops) to a clean start? This cannot be undone.')) {
+    return;
+  }
+  State.plans = [];
+  State.logs = [];
+  localStorage.removeItem('ft_plans');
+  localStorage.removeItem('ft_logs');
+  localStorage.removeItem('ft_custom_crops');
+  saveLocal();
+  showToast('Application reset to clean state!', 'success');
+  renderAllViews();
 }
 
 // --- Planting Calculation Engine ---
