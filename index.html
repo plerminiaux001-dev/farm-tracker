@@ -166,11 +166,16 @@
     <!-- 4. BEDS & FIELD VIEW -->
     <section id="view-beds" class="view-section">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">📍 Garden Beds & Rows Assignment</div>
-          <button class="btn btn-secondary btn-sm" onclick="switchView('settings')">
-            ⚙️ Edit Beds List
-          </button>
+        <div class="card-header" style="flex-wrap: wrap; gap: 10px;">
+          <div class="card-title">📍 Garden Beds & Rows (<span id="beds-count-badge">0 beds</span>)</div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <button class="btn btn-primary btn-sm" onclick="openAddBedModal()">
+              ➕ Add Bed
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="switchView('settings')" title="Manage all settings">
+              ⚙️ Settings
+            </button>
+          </div>
         </div>
         <div id="beds-container" class="beds-grid">
           <!-- Populated by script.js -->
@@ -556,6 +561,28 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
         <button class="btn btn-primary" onclick="submitAddCrop()">Save Variety</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Bed Modal -->
+  <div id="bed-modal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title" id="bed-modal-title">➕ Add Garden Bed / Row</div>
+        <button class="modal-close" onclick="closeModals()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="bed-modal-original-name">
+        <div class="form-group">
+          <label class="form-label">Bed or Row Name *</label>
+          <input type="text" id="bed-modal-name" class="form-input" placeholder="e.g. Bed 9, High Tunnel 1, North Raised Bed" required>
+          <small style="color:var(--text-muted)">Give this bed, row, or plot a clear, identifiable name.</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+        <button class="btn btn-primary" id="bed-modal-submit-btn" onclick="submitBedModal()">Save Bed</button>
       </div>
     </div>
   </div>

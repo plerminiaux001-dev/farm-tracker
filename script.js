@@ -473,35 +473,170 @@ function renderBedsView() {
   const container = document.getElementById('beds-container');
   if (!container) return;
 
+  const countBadge = document.getElementById('beds-count-badge');
+  if (countBadge) {
+    countBadge.textContent = `${State.settings.beds.length} ${State.settings.beds.length === 1 ? 'bed' : 'beds'}`;
+  }
+
+  if (State.settings.beds.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+        <div style="font-size: 2.5rem; margin-bottom: 12px;">📍</div>
+        <h3 style="margin-bottom: 8px; color: var(--text-main);">No Garden Beds Configured</h3>
+        <p style="color: var(--text-muted); max-width: 440px; margin: 0 auto 18px auto; font-size: 0.9rem;">
+          Create beds, rows, high tunnels, or cold frames to organize your plantings and track where crops grow.
+        </p>
+        <button class="btn btn-primary" onclick="openAddBedModal()">➕ Add Your First Bed</button>
+      </div>
+    `;
+    return;
+  }
+
   container.innerHTML = State.settings.beds.map(bedName => {
     const bedPlans = State.plans.filter(p => p.row_bed === bedName);
+    const safeBedName = escapeHtml(bedName);
+    const jsBedName = escapeJs(bedName);
 
     return `
       <div class="bed-card">
-        <div class="bed-card-header">
-          <div class="bed-title">📍 ${bedName}</div>
-          <span class="badge ${bedPlans.length > 0 ? 'badge-plant' : 'badge-secondary'}">
-            ${bedPlans.length} Plantings
-          </span>
-        </div>
-
-        <div class="bed-plantings-list">
-          ${bedPlans.length === 0 ? '<div style="color:var(--text-muted); font-size:0.85rem; padding: 6px 0;">No active plantings assigned.</div>' : ''}
-          ${bedPlans.map(p => `
-            <div class="bed-planting-item">
-              <div>
-                <strong>${p.icon || '🌱'} ${p.name}</strong>
-                <div style="font-size:0.75rem; color:var(--text-muted)">Status: ${p.status} • Target: ${p.target_quantity}</div>
-              </div>
-              <button class="btn btn-secondary btn-sm" style="padding:4px 8px; min-height:28px" onclick="openQuickLogModal('${p.id}', 'harvest')">
-                Harvest
+        <div>
+          <div class="bed-card-header">
+            <div class="bed-title-wrap">
+              <div class="bed-title">📍 ${safeBedName}</div>
+              <span class="badge ${bedPlans.length > 0 ? 'badge-plant' : 'badge-secondary'}">
+                ${bedPlans.length} ${bedPlans.length === 1 ? 'Planting' : 'Plantings'}
+              </span>
+            </div>
+            <div class="bed-card-actions">
+              <button class="btn btn-secondary btn-icon-only btn-sm" title="Rename Bed" onclick="openEditBedModal('${jsBedName}')">
+                ✏️
+              </button>
+              <button class="btn btn-secondary btn-icon-only btn-sm" title="Delete Bed" onclick="deleteBed('${jsBedName}')">
+                🗑️
               </button>
             </div>
-          `).join('')}
+          </div>
+
+          <div class="bed-plantings-list">
+            ${bedPlans.length === 0 ? '<div style="color:var(--text-muted); font-size:0.85rem; padding: 8px 0;">No active plantings assigned.</div>' : ''}
+            ${bedPlans.map(p => `
+              <div class="bed-planting-item">
+                <div>
+                  <strong>${p.icon || '🌱'} ${escapeHtml(p.name)}</strong>
+                  <div style="font-size:0.75rem; color:var(--text-muted)">Status: ${p.status} • Target: ${p.target_quantity}</div>
+                </div>
+                <button class="btn btn-secondary btn-sm" style="padding:4px 8px; min-height:28px" onclick="openQuickLogModal('${p.id}', 'harvest')">
+                  Harvest
+                </button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="bed-card-footer">
+          <button class="btn btn-secondary btn-sm" onclick="planInBed('${jsBedName}')">
+            ➕ Plant in Bed
+          </button>
         </div>
       </div>
     `;
   }).join('');
+}
+
+// --- Bed Management Handlers ---
+function openAddBedModal() {
+  document.getElementById('bed-modal-original-name').value = '';
+  document.getElementById('bed-modal-title').textContent = '➕ Add Garden Bed / Row';
+  document.getElementById('bed-modal-submit-btn').textContent = 'Add Bed';
+  const nameInput = document.getElementById('bed-modal-name');
+  nameInput.value = '';
+  document.getElementById('bed-modal').classList.add('active');
+  setTimeout(() => nameInput.focus(), 50);
+}
+
+function openEditBedModal(bedName) {
+  document.getElementById('bed-modal-original-name').value = bedName;
+  document.getElementById('bed-modal-title').textContent = `✏️ Rename Bed: ${bedName}`;
+  document.getElementById('bed-modal-submit-btn').textContent = 'Save Changes';
+  const nameInput = document.getElementById('bed-modal-name');
+  nameInput.value = bedName;
+  document.getElementById('bed-modal').classList.add('active');
+  setTimeout(() => {
+    nameInput.focus();
+    nameInput.select();
+  }, 50);
+}
+
+function submitBedModal() {
+  const nameInput = document.getElementById('bed-modal-name');
+  const newName = nameInput.value.trim();
+  const origName = document.getElementById('bed-modal-original-name').value.trim();
+
+  if (!newName) {
+    showToast('Please enter a bed name.', 'error');
+    nameInput.focus();
+    return;
+  }
+
+  // Check if adding new or renaming
+  if (!origName) {
+    // Adding
+    if (State.settings.beds.some(b => b.toLowerCase() === newName.toLowerCase())) {
+      showToast(`A bed named "${newName}" already exists.`, 'error');
+      nameInput.focus();
+      return;
+    }
+    State.settings.beds.push(newName);
+    showToast(`Added bed "${newName}"`, 'success');
+  } else {
+    // Renaming
+    if (origName.toLowerCase() !== newName.toLowerCase() && State.settings.beds.some(b => b.toLowerCase() === newName.toLowerCase())) {
+      showToast(`A bed named "${newName}" already exists.`, 'error');
+      nameInput.focus();
+      return;
+    }
+    State.settings.beds = State.settings.beds.map(b => b === origName ? newName : b);
+    // Update any active plans assigned to the old bed name
+    State.plans.forEach(plan => {
+      if (plan.row_bed === origName) {
+        plan.row_bed = newName;
+      }
+    });
+    showToast(`Renamed "${origName}" to "${newName}"`, 'success');
+  }
+
+  saveLocal();
+  closeModals();
+  renderAllViews();
+}
+
+function deleteBed(bedName) {
+  const assignedPlans = State.plans.filter(p => p.row_bed === bedName);
+  if (assignedPlans.length > 0) {
+    if (!confirm(`"${bedName}" has ${assignedPlans.length} active crop plan(s) assigned to it. Deleting this bed will set their bed to Unassigned. Proceed?`)) {
+      return;
+    }
+    State.plans.forEach(plan => {
+      if (plan.row_bed === bedName) {
+        plan.row_bed = '';
+      }
+    });
+  } else {
+    if (!confirm(`Are you sure you want to delete "${bedName}"?`)) {
+      return;
+    }
+  }
+
+  State.settings.beds = State.settings.beds.filter(b => b !== bedName);
+  saveLocal();
+  showToast(`Bed "${bedName}" deleted`, 'success');
+  renderAllViews();
+}
+
+function planInBed(bedName) {
+  State.pendingBedForPlan = bedName;
+  switchView('catalog');
+  showToast(`Select a crop to plant in "${bedName}"`, 'success');
 }
 
 // --- Historical Logs & Analytics ---
@@ -777,7 +912,7 @@ function submitQuickLog() {
 }
 
 // --- Add / Edit Plan Modal ---
-function openAddPlanModal(cropId) {
+function openAddPlanModal(cropId, defaultBed) {
   const crop = State.crops.find(c => String(c.id) === String(cropId));
   if (!crop) return;
 
@@ -794,6 +929,12 @@ function openAddPlanModal(cropId) {
   // Populate bed selector
   const bedSelect = document.getElementById('plan-modal-bed');
   bedSelect.innerHTML = State.settings.beds.map(b => `<option value="${b}">${b}</option>`).join('');
+
+  const targetBed = defaultBed || State.pendingBedForPlan;
+  if (targetBed && State.settings.beds.includes(targetBed)) {
+    bedSelect.value = targetBed;
+  }
+  State.pendingBedForPlan = null;
 
   document.getElementById('add-plan-modal').classList.add('active');
 }
@@ -926,6 +1067,33 @@ function bindEvents() {
       renderHistoryView();
     });
   }
+
+  // Bed modal Enter key submit
+  const bedModalInput = document.getElementById('bed-modal-name');
+  if (bedModalInput) {
+    bedModalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submitBedModal();
+      }
+    });
+  }
+
+  // Close modals on backdrop click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closeModals();
+      }
+    });
+  });
+
+  // Close modals on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModals();
+    }
+  });
 }
 
 // --- PWA Service Worker ---
@@ -1212,4 +1380,23 @@ function resetHistoryFilters() {
 
   setHistoryYearFilter('all');
   setHistoryTypeFilter('all');
+}
+
+// --- Utility Helpers ---
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function escapeJs(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"');
 }

@@ -632,24 +632,48 @@ body {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.bed-card:hover {
+  border-color: var(--primary);
 }
 
 .bed-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.bed-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .bed-title {
   font-size: 1.1rem;
   font-weight: 700;
+  color: var(--text-main);
+  word-break: break-word;
+}
+
+.bed-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .bed-plantings-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex-grow: 1;
 }
 
 .bed-planting-item {
@@ -660,6 +684,15 @@ body {
   justify-content: space-between;
   align-items: center;
   font-size: 0.85rem;
+  gap: 8px;
+}
+
+.bed-card-footer {
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* Modal Bottom Sheets & Dialogs */
